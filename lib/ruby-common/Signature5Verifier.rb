@@ -23,6 +23,7 @@ class Signature5Verifier
   # @raise VersionError If there is an error related to version parsing or compatibility.
   # @raise ParseError If there is an error parsing the signature or during decryption process
   # @raise VerifyError If there is an error during verify decrypted Signature
+  # @return Signature5VerificationResult
 
   def self.verify(signature, user_agent, key, ip_addresses)
     Signature5VerifierService.verifySignature(signature, user_agent, key, ip_addresses)
