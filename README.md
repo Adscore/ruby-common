@@ -30,10 +30,13 @@ integration with the service.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+You have few options:
 
+### Sharing source code
+
+Add this line to your application's Gemfile:
 ```ruby
-gem 'ruby-common'
+ gem "ruby-common", :git => "https://github.com/Adscore/ruby-common"
 ```
 
 And then execute:
@@ -55,6 +58,8 @@ Following are few quick examples of how to use verifier, first import the entry 
 
 
 ```ruby
+require 'ruby-common'
+
 begin
     # Verify with base64 encoded key. No expiry parameter, the default expiry time for requestTime and signatureTime is 60s
     result = Signature4Verifier.verify(
@@ -76,6 +81,8 @@ end
 
 
 [..]
+require 'ruby-common'
+
 begin
     # Verify with checking if expired and non base64 encoded key
     #
@@ -93,6 +100,8 @@ begin
 
 
 [..]
+require 'ruby-common'
+
 begin
     # Verify against number of ip4 and ip6 addresses
     # (No expiry parameter, the default expiry time for requestTime and signatureTime is 120s)
@@ -107,8 +116,9 @@ begin
         );
 [..]
 
-
 ```
+The `result` is an instance of the [Signature4VerificationResult](lib/ruby-common/v4/Signature4VerificationResult.rb) class.
+
 
 
 ### V5 signature decryption
@@ -127,6 +137,8 @@ It can be integrated in V4-compatible mode, not making use of any V5 features (s
 
 
 ```ruby
+require 'ruby-common'
+
 begin
 
     # Three things are necessary to verify the signature - at least one IP address in array, User Agent string 
@@ -148,6 +160,7 @@ rescue VerifyError
     # They must be bit-exact, so even excessive whitespace or casing change can trigger the problem.
 end
 ```
+The `result` is an instance of the [Signature5VerificationResult](lib/ruby-common/v5/Signature5VerificationResult.rb) class.
 
 The result field score only after a successful verify() call. This is expected behavior, to preserve compliance with V4 behavior - the result is only valid when it's proven belonging to a visitor, in other case will be thrown exception. For custom integrations not relying on built-in verification routines (usually more tolerant), the result is present also in result field, but it's then the integrator's reponsibility to ensure whether it's trusted or not. When desired validation is more strict than the built-in one, the verify() can be called first, and after that any additional verification may take place. 
 
