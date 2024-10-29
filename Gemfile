@@ -8,7 +8,7 @@ gemspec
 
 gem "rake", "~> 13.0"
 gem 'rspec'
-gem 'rbnacl'
+gem 'rbnacl', "~> 7.1.2"
 gem "msgpack", "~> 1.7.3"
 
 group :development, :test do
