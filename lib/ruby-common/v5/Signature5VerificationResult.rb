@@ -65,46 +65,90 @@ class Signature5VerificationResult
   attr_accessor :request_time
   # Signature time
   attr_accessor :signature_time
+  # Signature time
+  attr_accessor :h_signature_time
   # Token
   attr_accessor :token
   # Other, which has not been mapped to a field, or getting error during parsing
   attr_accessor :additional_data
 
   def initialize(hash)
-    @zone_id = hash['zone_id'] ? hash['zone_id'].to_i : nil
-    @result = hash['result'] ? hash['result'].to_i : nil
-    @verdict = hash['verdict']
-    @visitor_user_agent = hash['b.ua']
-    @data = hash['data']
-    @ipv4_ip = hash['ipv4.ip']
-    @ipv4_v = hash['ipv4.v'] ? hash['ipv4.v'].to_i : nil
-    @ipv6_ip = hash['ipv6.ip']
-    @ipv6_v = hash['ipv6.v'] ? hash['ipv6.v'].to_i : nil
-    @cpu_cores = hash['b.cpucores'] ? hash['b.cpucores'].to_i : nil
-    @ram = hash['b.ram'] ? hash['b.ram'].to_i : nil
-    @tz_offset = hash['b.tzoffset'] ? hash['b.tzoffset'].to_i : nil
-    @b_platform = hash['b.platform']
-    @platform_v = hash['b.platform.v']
-    @gpu = hash['b.gpu']
-    @apple_sense = hash['apple_sense']
-    @horizontal_resolution = hash['b.sr.w'] ? hash['b.sr.w'].to_i : nil
-    @vertical_resolution = hash['b.sr.h'] ? hash['b.sr.h'].to_i : nil
-    @true_ua = hash['b.trueua']
-    @true_ua_location = hash['b.trueloc.c']
-    @true_ua_location_c = hash['b.truech.location.c'] ? hash['b.truech.location.c'].to_i : nil
-    @truech_ua = hash['b.truech.ua']
-    @truech_arch = hash['b.truech.arch']
-    @truech_bitness = hash['b.truech.bitness'] ? hash['b.truech.bitness'].to_i : nil
-    @truech_model = hash['b.truech.model']
-    @truech_platform = hash['b.truech.platform']
-    @truech_platform_v = hash['b.truech.platform.v']
-    @truech_full_v = hash['b.truech.full.v']
-    @truech_mobile = hash['b.truech.mobile']
-    @incognito = hash['incognito']
-    @sub_id = hash['sub_id']
-    @request_time = hash['requestTime'] ? hash['requestTime'].to_i : nil
-    @signature_time = hash['HsignatureTime']
-    @token = hash['token']
-    @additional_data = hash.reject { |key, _| respond_to?(key) }
+    @zone_id = hash.delete('zone_id')&.to_i
+    @result = hash.delete('result')&.to_i
+    @verdict = hash.delete('verdict')
+    @visitor_user_agent = hash.delete('b.ua')
+    @data = hash.delete('data')
+    @ipv4_ip = hash.delete('ipv4.ip')
+    @ipv4_v = hash.delete('ipv4.v')&.to_i
+    @ipv6_ip = hash.delete('ipv6.ip')
+    @ipv6_v = hash.delete('ipv6.v')&.to_i
+    @cpu_cores = hash.delete('b.cpucores')&.to_i
+    @ram = hash.delete('b.ram')&.to_i
+    @tz_offset = hash.delete('b.tzoffset')&.to_i
+    @b_platform = hash.delete('b.platform')
+    @platform_v = hash.delete('b.platform.v')
+    @gpu = hash.delete('b.gpu')
+    @apple_sense = hash.delete('apple_sense')
+    @horizontal_resolution = hash.delete('b.sr.w')&.to_i
+    @vertical_resolution = hash.delete('b.sr.h')&.to_i
+    @true_ua = hash.delete('b.trueua')
+    @true_ua_location = hash.delete('b.trueloc.c')
+    @true_ua_location_c = hash.delete('b.truech.location.c')&.to_i
+    @truech_ua = hash.delete('b.truech.ua')
+    @truech_arch = hash.delete('b.truech.arch')
+    @truech_bitness = hash.delete('b.truech.bitness')&.to_i
+    @truech_model = hash.delete('b.truech.model')
+    @truech_platform = hash.delete('b.truech.platform')
+    @truech_platform_v = hash.delete('b.truech.platform.v')
+    @truech_full_v = hash.delete('b.truech.full.v')
+    @truech_mobile = hash.delete('b.truech.mobile')
+    @incognito = hash.delete('incognito')
+    @sub_id = hash.delete('sub_id')
+    @request_time = hash.delete('requestTime')&.to_i
+    @h_signature_time = hash.delete('HsignatureTime')
+    @signature_time = hash.delete('signatureTime')
+    @token = hash.delete('token')
+    @additional_data = hash
+  end
+
+  def to_s
+    <<~STRING
+      Zone ID: #{@zone_id}
+      Result: #{@result}
+      Verdict: #{@verdict}
+      Visitor User Agent: #{@visitor_user_agent}
+      Data: #{@data}
+      IPv4 IP: #{@ipv4_ip}
+      IPv4 Version: #{@ipv4_v}
+      IPv6 IP: #{@ipv6_ip}
+      IPv6 Version: #{@ipv6_v}
+      CPU Cores: #{@cpu_cores}
+      RAM: #{@ram}
+      Time Zone Offset: #{@tz_offset}
+      Browser Platform: #{@b_platform}
+      Platform Version: #{@platform_v}
+      GPU: #{@gpu}
+      Apple Sense: #{@apple_sense}
+      Horizontal Resolution: #{@horizontal_resolution}
+      Vertical Resolution: #{@vertical_resolution}
+      True User Agent: #{@true_ua}
+      True User Agent Location: #{@true_ua_location}
+      True User Agent Location Code: #{@true_ua_location_c}
+      Truech User Agent: #{@truech_ua}
+      Truech Architecture: #{@truech_arch}
+      Truech Bitness: #{@truech_bitness}
+      Truech Model: #{@truech_model}
+      Truech Platform: #{@truech_platform}
+      Truech Platform Version: #{@truech_platform_v}
+      Truech Full Version: #{@truech_full_v}
+      Truech Mobile: #{@truech_mobile}
+      Incognito: #{@incognito}
+      Subscriber ID: #{@sub_id}
+      Request Time: #{@request_time}
+      Signature Time: #{@signature_time}
+      H Signature Time: #{@h_signature_time}
+      Token: #{@token}
+      Additional Data: #{@additional_data}
+    STRING
   end
 end

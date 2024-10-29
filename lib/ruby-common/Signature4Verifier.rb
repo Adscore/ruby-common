@@ -21,6 +21,7 @@ class Signature4Verifier
   # @raise [VersionError] if there is an error related to version parsing or compatibility.
   # @raise [ParseError] if there is an error parsing the signature or during decryption process
   # @raise [VerifyError] if there is an error during verify decrypted Signature
+  # @return Signature4VerificationResult
   def self.verify(signature, user_agent, key, ip_addresses, expiry: DEFAULT_EXPIRY_TIME_SEC, is_key_base64_encoded: false)
     Signature4VerifierService.verifySignature(signature, user_agent, key, ip_addresses, expiry, is_key_base64_encoded)
   end
