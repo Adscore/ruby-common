@@ -30,14 +30,25 @@ integration with the service.
 
 ## Installation
 
-You have few options:
+You have several options, but the best ones are:
 
-### Sharing source code
+### Import via rubygems.org
+Follow version on: https://rubygems.org/gems/ruby-common
+
+Add this line to your application's Gemfile:
+```ruby
+gem 'ruby-common', '~> [VERSION]'
+```
+
+
+### Import via github.com
+Repo: https://github.com/Adscore/ruby-common
 
 Add this line to your application's Gemfile:
 ```ruby
  gem "ruby-common", :git => "https://github.com/Adscore/ruby-common"
 ```
+
 
 And then execute:
 
