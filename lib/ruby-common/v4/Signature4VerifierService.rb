@@ -127,7 +127,6 @@ class Signature4VerifierService
       raise SignatureParseError, 'invalid timestamp (future time)' if timestamp > (Time.now.to_i)
 
       master_token_length = unpack_result['masterTokenLength']
-      #TODO CO TO KURWA JEST ZA METODA?
       master_token = get_bytes_and_advance_position(sign_decoded, master_token_length)
       unpack_result['masterToken'] = master_token
 
