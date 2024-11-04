@@ -63,6 +63,7 @@ class StructUnpacker
     def rfc3986_unpack(data)
       begin
         query_string = data.to_s
+        query_string.slice!(0) if query_string.start_with?("H")
         decoded = decode_url(query_string)
         pairs = decoded.split('&')
         result = {}
