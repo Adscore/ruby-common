@@ -65,8 +65,6 @@ class Signature5VerificationResult
   attr_accessor :request_time
   # Signature time
   attr_accessor :signature_time
-  # Signature time
-  attr_accessor :h_signature_time
   # Token
   attr_accessor :token
   # Other, which has not been mapped to a field, or getting error during parsing
@@ -105,8 +103,7 @@ class Signature5VerificationResult
     @incognito = hash.delete('incognito')
     @sub_id = hash.delete('sub_id')
     @request_time = hash.delete('requestTime')&.to_i
-    @h_signature_time = hash.delete('HsignatureTime')
-    @signature_time = hash.delete('signatureTime')
+    @signature_time = hash.delete('signatureTime')&.to_i
     @token = hash.delete('token')
     @additional_data = hash
   end
@@ -146,7 +143,6 @@ class Signature5VerificationResult
       Subscriber ID: #{@sub_id}
       Request Time: #{@request_time}
       Signature Time: #{@signature_time}
-      H Signature Time: #{@h_signature_time}
       Token: #{@token}
       Additional Data: #{@additional_data}
     STRING
