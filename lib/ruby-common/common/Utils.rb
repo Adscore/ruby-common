@@ -11,6 +11,10 @@ class SignatureVerifierUtils
     return Base64.decode64(key)
   end
 
+  def self.base64_encode(key)
+    return Base64.encode64(key)
+  end
+
   def self.encode(key, data)
     begin
       hmac = OpenSSL::HMAC.new(key, 'sha256')
@@ -18,5 +22,12 @@ class SignatureVerifierUtils
     rescue StandardError => e
       raise SignatureParseError, "Error encode data"
     end
+  end
+
+  def self.pad_start(input_string, length, char)
+    return input_string if input_string.length >= length
+  
+    padding = char.to_s * (length - input_string.length)
+    padding + input_string
   end
 end

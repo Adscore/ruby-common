@@ -1,13 +1,20 @@
 PATH
   remote: .
   specs:
-    ruby-common (0.1.0)
+    ruby-common (1.0.2)
+      msgpack (~> 1.7.3)
+      rake (~> 13.0)
+      rbnacl (~> 7.1.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.5.1)
+    ffi (1.17.0)
+    msgpack (1.7.3)
     rake (13.2.1)
+    rbnacl (7.1.2)
+      ffi (~> 1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -26,9 +33,14 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  msgpack (~> 1.7.3)
   rake (~> 13.0)
+  rbnacl (~> 7.1.2)
   rspec
   ruby-common!
+
+RUBY VERSION
+   ruby 3.0.2p107
 
 BUNDLED WITH
    2.3.5

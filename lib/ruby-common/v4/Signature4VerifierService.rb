@@ -153,7 +153,7 @@ class Signature4VerifierService
 
         raise SignatureParseError, 'premature end of signature 0x01' if header.empty? || !header.key?('fieldId')
 
-        field = FIELD_IDS[header['fieldId'].first]
+        field = field_type_def(header['fieldId'].first, i)
         v = {}
 
         case field&.type
@@ -198,5 +198,18 @@ class Signature4VerifierService
     def get_base(verdict, request_time, signature_time, ip_address, user_agent)
       [verdict, request_time, signature_time, ip_address, user_agent].join("\n")
     end
+      
+    private def field_type_def(field_id, i)
+      if FIELD_IDS[field_id]
+        return FIELD_IDS[field_id]
+      end
+      
+      result_type = FIELD_IDS[field_id & 0xC0].type
+    
+      i_str = SignatureVerifierUtils.pad_start(i.to_s, 2, '0')
+      result_name = result_type + i_str
+    
+      Field.new(result_name, result_type)
+    end    
   end
 end
