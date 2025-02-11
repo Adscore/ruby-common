@@ -118,7 +118,7 @@ class Signature4VerifierService
 
     def parse3(signature)
       sign_decoded = SignatureVerifierUtils.base64_decode(signature)
-      unpack_result = PhpUnpack.unpack('Cversion/NrequestTime/NsignatureTime/CmasterSignType/nmasterTokenLength', sign_buffer)
+      unpack_result = PhpUnpack.unpack('Cversion/NrequestTime/NsignatureTime/CmasterSignType/nmasterTokenLength', sign_decoded)
 
       version = unpack_result['version']
       raise VersionError, 'Invalid signature version' if version != 3
@@ -127,12 +127,12 @@ class Signature4VerifierService
       raise SignatureParseError, 'invalid timestamp (future time)' if timestamp > (Time.now.to_i)
 
       master_token_length = unpack_result['masterTokenLength']
-      master_token = get_bytes_and_advance_position(sign_decoded, master_token_length)
+      master_token = sign_decoded.slice!(0, master_token_length)
       unpack_result['masterToken'] = master_token
 
       customer_data = PhpUnpack.unpack('CcustomerSignType/ncustomerTokenLength', sign_buffer)
       customer_token_length = customer_data['customerTokenLength']
-      customer_token = get_bytes_and_advance_position(sign_decoded, customer_token_length)
+      customer_token = sign_decoded.slice!(0, customer_token_length)
       customer_data['customerToken'] = customer_token
 
       unpack_result.merge!(customer_data)
